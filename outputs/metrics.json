@@ -1,0 +1,16 @@
+{
+  "cv_roc_auc": 0.89,
+  "test_roc_auc": 0.882,
+  "test_pr_auc": 0.8972,
+  "test_accuracy": 0.7255,
+  "test_f1": 0.791,
+  "n_train": 1631,
+  "n_test": 408,
+  "best_params": {
+    "n_estimators": 800,
+    "min_samples_leaf": 1,
+    "max_features": "log2",
+    "max_depth": 40,
+    "class_weight": "balanced_subsample"
+  }
+}

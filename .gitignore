@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.venv/
+# Trained model is ~12 MB; regenerate with `python src/train.py`
+outputs/*.joblib
