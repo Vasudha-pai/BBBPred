@@ -1,4 +1,4 @@
-# ChemAI: Predict the Cure — Blood-Brain Barrier Penetration with a Random Forest
+#  Blood-Brain Barrier Penetration with a Random Forest
 
 A drug for a brain disease only works if it can actually **reach the brain**. Most
 molecules are blocked by the blood-brain barrier (BBB). This project predicts, from a
