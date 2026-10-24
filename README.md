@@ -57,14 +57,6 @@ python src/train.py          # ~5 min on a laptop; writes outputs/
 python src/predict.py "CN1C=NC2=C1C(=O)N(C(=O)N2C)C"   # caffeine
 ```
 
-Example output:
-
-```
-CN1C=NC2=C1C(=O)N(C(=O)N2C)C                 P(BBB+) = 0.94  penetrates      (caffeine)
-CN1CCC23C4C1CC5=C2C(=C(C=C5)O)OC3C(C=C4)O    P(BBB+) = 0.99  penetrates      (morphine)
-CC(=O)Oc1ccccc1C(=O)O                        P(BBB+) = 0.46  does not penetrate (aspirin)
-```
-
 ## Project structure
 
 ```
