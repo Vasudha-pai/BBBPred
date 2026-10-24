@@ -36,6 +36,40 @@ penetration — a good sanity check:
 
 ![Feature importance](outputs/feature_importance.png)
 
+## SHAP analysis: why the model decides what it decides
+
+`src/explain.py` runs exact TreeSHAP on the final random forest (400 sampled molecules)
+to show how each feature pushes a prediction towards **crosses the BBB** (positive SHAP)
+or **blocked** (negative SHAP).
+
+![SHAP beeswarm](outputs/shap_beeswarm.png)
+
+Key findings (red = high feature value):
+
+- **TPSA is the #1 driver.** High polar surface area strongly lowers P(BBB+). The
+  dependence plot shows SHAP flipping sign at **~80-90 Å²**, rediscovering the
+  medicinal-chemistry rule of thumb that CNS drugs need TPSA < 90 Å² — learned from data alone.
+- **H-bond donors, N/O counts and heteroatoms** all push towards "blocked".
+- **Lipophilicity (MolLogP) and drug-likeness (qed)** push towards "crosses".
+- **Carboxylic acids (`fr_COO2`)** are penalised: they are charged at blood pH and
+  rarely cross membranes.
+- The "sum of other features" row is large because signal is spread across thousands of
+  correlated fingerprint bits and descriptors — individual features each contribute a
+  little, but together they separate the classes clearly.
+
+![TPSA dependence](outputs/shap_dependence_TPSA.png)
+
+### Explaining single molecules
+
+Morgan fingerprint bits are labelled with the substructure they encode.
+
+| Caffeine — P(BBB+) = 0.94 | Penicillin G — P(BBB+) = 0.01 |
+|---|---|
+| ![Caffeine](outputs/shap_waterfall_caffeine.png) | ![Penicillin G](outputs/shap_waterfall_penicillin_g.png) |
+
+Penicillin G (which indeed does not reach the brain well) is pushed down by its
+carboxylic acid, β-lactam and thioether groups.
+
 ## Approach
 
 1. **Data** — [BBBP](https://moleculenet.org/datasets-1) from MoleculeNet: 2,050 compounds
@@ -54,6 +88,7 @@ penetration — a good sanity check:
 ```bash
 pip install -r requirements.txt
 python src/train.py          # ~5 min on a laptop; writes outputs/
+python src/explain.py        # ~3 min; SHAP plots in outputs/
 python src/predict.py "CN1C=NC2=C1C(=O)N(C(=O)N2C)C"   # caffeine
 ```
 
@@ -64,5 +99,6 @@ data/BBBP.csv            MoleculeNet BBBP dataset
 src/features.py          SMILES → descriptors + fingerprints, scaffolds
 src/train.py             scaffold split, RF tuning, evaluation, plots
 src/predict.py           predict BBB penetration for new SMILES
+src/explain.py           SHAP analysis: global + per-molecule explanations
 outputs/                 metrics.json, roc_curve.png, feature_importance.png, top_features.csv
 ```
