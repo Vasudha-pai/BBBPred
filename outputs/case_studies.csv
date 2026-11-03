@@ -1,0 +1,13 @@
+drug,expected,p_bbb,correct@0.5,correct@tuned,bbbp_label,why,top_shap_reasons
+Diazepam,crosses,1.0,True,True,1,"Lipophilic sedative, passive diffusion",VSA_EState3 +0.009; NumHDonors +0.008
+Fluoxetine,crosses,0.94,True,True,1,"Antidepressant, passive diffusion",TPSA +0.011; VSA_EState3 +0.011
+Diphenhydramine,crosses,0.98,True,True,1,1st-gen antihistamine (sedating),VSA_EState3 +0.010; TPSA +0.009
+Fexofenadine,blocked,0.47,True,True,0,2nd-gen antihistamine: zwitterion + P-gp efflux,fr_COO -0.014; qed -0.013
+Hydroxyzine,crosses,0.98,True,True,1,1st-gen antihistamine (sedating),TPSA +0.010; EState_VSA8 +0.008
+Cetirizine,blocked,0.83,False,True,0,Hydroxyzine metabolite: added acid limits entry,fr_COO2 -0.021; fr_COO -0.020
+Loperamide,blocked,0.88,False,False,0,Opioid kept out by P-gp efflux,TPSA +0.009; MolLogP +0.009
+Domperidone,blocked,0.94,False,False,0,Antiemetic kept out by P-gp efflux,VSA_EState3 +0.012; MinPartialCharge +0.012
+Dopamine,blocked,0.48,True,True,0,Polar neurotransmitter,NHOHCount -0.016; fr_phenol_noOrthoHbond -0.014
+L-DOPA,crosses,0.37,False,False,1,"Polar, but carried in by the LAT1 transporter",fr_phenol_noOrthoHbond -0.015; NHOHCount -0.014
+Gabapentin,crosses,0.85,True,True,1,"Amino acid, carried in by LAT1",fr_COO2 -0.017; fr_COO -0.013
+Atenolol,blocked,0.79,False,True,0,Hydrophilic beta-blocker (few CNS effects),NHOHCount -0.012; NumHDonors -0.007

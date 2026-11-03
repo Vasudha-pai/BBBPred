@@ -3,8 +3,6 @@
 Usage: python src/train.py
 """
 import json
-from collections import defaultdict
-from pathlib import Path
 
 import joblib
 import matplotlib
@@ -15,46 +13,22 @@ from sklearn.metrics import (accuracy_score, average_precision_score, f1_score,
                              roc_auc_score, roc_curve)
 from sklearn.model_selection import GroupKFold, RandomizedSearchCV
 
-from features import feature_names, featurize_many, scaffold, smiles_to_mol
+from data import OUT, SEED, load_dataset, scaffold_split
+from features import feature_names, featurize_many
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
-ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "data" / "BBBP.csv"
-OUT = ROOT / "outputs"
-SEED = 42
-
-
-def scaffold_split(scaffolds, test_frac=0.2):
-    """Put whole scaffold groups in train or test so the test set has unseen chemotypes.
-
-    Largest groups go to train first (the standard MoleculeNet recipe), leaving
-    rarer scaffolds for test - a harder, more realistic estimate than a random split.
-    """
-    groups = defaultdict(list)
-    for i, s in enumerate(scaffolds):
-        groups[s].append(i)
-    ordered = sorted(groups.values(), key=lambda g: (len(g), g[0]), reverse=True)
-    n_train = int((1 - test_frac) * len(scaffolds))
-    train, test = [], []
-    for g in ordered:
-        (train if len(train) + len(g) <= n_train else test).extend(g)
-    return np.array(train), np.array(test)
-
 
 def main():
     OUT.mkdir(exist_ok=True)
-    df = pd.read_csv(DATA)
-    df["mol"] = df["smiles"].map(smiles_to_mol)
-    n_bad = int(df["mol"].isna().sum())
-    df = df.dropna(subset=["mol"]).reset_index(drop=True)
+    df, n_bad = load_dataset()
     print(f"Loaded {len(df)} molecules ({n_bad} unparseable SMILES dropped)")
     print(f"Class balance: {df['p_np'].mean():.1%} penetrate the BBB")
 
     X = featurize_many(df["mol"])
     y = df["p_np"].to_numpy()
-    scaffolds = df["mol"].map(scaffold).to_numpy()
+    scaffolds = df["scaffold"].to_numpy()
     train_idx, test_idx = scaffold_split(scaffolds)
     print(f"Scaffold split: {len(train_idx)} train / {len(test_idx)} test")
 
