@@ -1,0 +1,108 @@
+{
+  "baselines": [
+    {
+      "model": "CNS rule (TPSA<90, MW<450, HBD<=3)",
+      "roc_auc": 0.747,
+      "roc_auc_95ci": [
+        0.703,
+        0.787
+      ],
+      "pr_auc": 0.717,
+      "rf_better_in_%_of_bootstraps": 100.0
+    },
+    {
+      "model": "TPSA alone (lower = crosses)",
+      "roc_auc": 0.826,
+      "roc_auc_95ci": [
+        0.783,
+        0.866
+      ],
+      "pr_auc": 0.843,
+      "rf_better_in_%_of_bootstraps": 100.0
+    },
+    {
+      "model": "CNS MPO score (4-component)",
+      "roc_auc": 0.735,
+      "roc_auc_95ci": [
+        0.683,
+        0.782
+      ],
+      "pr_auc": 0.746,
+      "rf_better_in_%_of_bootstraps": 100.0
+    },
+    {
+      "model": "Logistic regression (6 descriptors)",
+      "roc_auc": 0.81,
+      "roc_auc_95ci": [
+        0.765,
+        0.853
+      ],
+      "pr_auc": 0.807,
+      "rf_better_in_%_of_bootstraps": 100.0
+    },
+    {
+      "model": "Random forest (this project)",
+      "roc_auc": 0.882,
+      "roc_auc_95ci": [
+        0.847,
+        0.914
+      ],
+      "pr_auc": 0.897,
+      "rf_better_in_%_of_bootstraps": 0.0
+    }
+  ],
+  "test_metrics_95ci": {
+    "roc_auc": [
+      0.847,
+      0.914
+    ],
+    "pr_auc": [
+      0.857,
+      0.932
+    ],
+    "f1@0.5": [
+      0.752,
+      0.826
+    ],
+    "accuracy@0.5": [
+      0.681,
+      0.767
+    ]
+  },
+  "repeated_splits_roc_auc": {
+    "Random": {
+      "mean": 0.933,
+      "std": 0.008
+    },
+    "Scaffold (shuffled)": {
+      "mean": 0.885,
+      "std": 0.02
+    }
+  },
+  "threshold": {
+    "default_0.5": {
+      "threshold": 0.5,
+      "accuracy": 0.725,
+      "balanced_accuracy": 0.703,
+      "f1": 0.791,
+      "mcc": 0.481,
+      "sensitivity": 0.955,
+      "specificity": 0.452
+    },
+    "tuned_on_train_cv": {
+      "threshold": 0.846,
+      "accuracy": 0.784,
+      "balanced_accuracy": 0.789,
+      "f1": 0.787,
+      "mcc": 0.577,
+      "sensitivity": 0.734,
+      "specificity": 0.844
+    }
+  },
+  "calibration": {
+    "brier_train_cv": 0.0888,
+    "brier_test": 0.1824,
+    "brier_test_isotonic": 0.1602,
+    "brier_test_always_predict_train_rate": 0.3244
+  }
+}

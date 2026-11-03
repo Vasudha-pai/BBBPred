@@ -1,0 +1,16 @@
+mol_a,label_a,mol_b,label_b,tanimoto,identical_structure,smiles_a,smiles_b
+Propanolol,1,propranolol,0,1.0,True,[Cl].CC(C)NCC(O)COc1cccc2ccccc12,CC(C)NCC(O)COc1cccc2ccccc12
+24959,1,Saquinavir,0,1.0,False,C1N(C(CC2CCCCC12)C(NC(C)(C)C)=O)CC(C(Cc1ccccc1)NC(C(NC(c1nc2c(cccc2)cc1)=O)CC(N)=O)=O)O,CC(C)(C)NC(=O)[C@@H]1C[C@@H]2CCCC[C@@H]2CN1C[C@@H](O)[C@H](Cc3ccccc3)NC(=O)[C@H](CC(N)=O)NC(=O)c4ccc5ccccc5n4
+BRL53080,1,loperamide,0,1.0,True,CN(C)C(=O)C(CCN1CCC(O)(CC1)c1ccc(Cl)cc1)(c1ccccc1)c1ccccc1,CN(C)C(=O)C(CCN1CCC(O)(CC1)c2ccc(Cl)cc2)(c3ccccc3)c4ccccc4
+hyoscyamine,1,atropine,0,1.0,False,CN1C2CCC1CC(C2)OC(=O)[C@H](CO)c3ccccc3,CN1C2CCC1CC(C2)OC(=O)C(CO)c3ccccc3
+Quinidine,1,Quinine,0,1.0,False,COc1ccc2nccc([C@H](O)[C@H]3C[C@@H]4CCN3C[C@@H]4C=C)c2c1,COc1ccc2nccc([C@@H](O)[C@@H]3C[C@H]4CCN3C[C@@H]4C=C)c2c1
+SB204457,1,Colchicine,0,1.0,False,c12c3c(C(NC(C)=O)CCc2cc(c(c1OC)OC)OC)cc(=O)c(cc3)OC,COC1=CC=C2C(=CC1=O)[C@H](CCc3cc(OC)c(OC)c(OC)c23)NC(C)=O
+acetylsalicylate,0,aspirin,1,1.0,True,CC(=O)Oc1ccccc1C(O)=O,C1=CC=CC(=C1C(O)=O)OC(C)=O
+atropine,0,atropine(hyoscyamine),1,1.0,True,CN1C2CCC1CC(C2)OC(=O)C(CO)c3ccccc3,C1=CC=CC=C1C(C(OC2CC3N(C)C(C2)CC3)=O)CO
+Trimetrexate,0,trimetrexate,1,1.0,True,COc1cc(NCc2ccc3nc(N)nc(N)c3c2C)cc(OC)c1OC,C1=C3C(=C(C(=C1)CNC2=CC(=C(C(=C2)OC)OC)OC)C)C(=NC(=N3)N)N
+indomethacin,0,indomethacin(indometacin),1,1.0,True,COc1ccc2n(c(C)c(CC(O)=O)c2c1)C(=O)c3ccc(Cl)cc3,C1=CC(=CC2=C1[N](C(=C2CC(O)=O)C)C(C3=CC=C(Cl)C=C3)=O)OC
+levodopa,0,levodopa,1,1.0,True,N[C@@H](Cc1ccc(O)c(O)c1)C(O)=O,[C@H](CC1=CC(=C(C=C1)O)O)(C(O)=O)N
+mequitazine,0,mequitazine,1,1.0,True,C1CN2CCC1C(C2)CN3c4ccccc4Sc5ccccc35,C1=CC=CC2=C1SC5=C(N2CC3C4CCN(C3)CC4)C=CC=C5
+Methylprednisolone,0,methylprednisolone,1,1.0,True,C[C@H]1C[C@H]2[C@@H]3CC[C@](O)(C(=O)CO)[C@@]3(C)C[C@H](O)[C@@H]2[C@@]4(C)C=CC(=O)C=C14,[C@H]24[C@H]1[C@@]([C@](C(CO)=O)(O)CC1)(C[C@@H]([C@@H]2[C@@]3(C(=CC(=O)C=C3)[C@H](C4)C)C)O)C
+Miconazole,0,miconazole,1,1.0,True,Clc1ccc(COC(Cn2ccnc2)c3ccc(Cl)cc3Cl)c(Cl)c1,C1=C(C=CC(=C1Cl)COC(C[N]2C=NC=C2)C3=C(C=C(C=C3)Cl)Cl)Cl
+loratadine,0,loratadine,1,1.0,True,CCOC(=O)N1CCC(CC1)=C2c3ccc(Cl)cc3CCc4cccnc24,C1=CC(=CC2=C1C(C3=C(CC2)C=CC=N3)=C4CCN(C(OCC)=O)CC4)Cl

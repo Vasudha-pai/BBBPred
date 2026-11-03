@@ -1,0 +1,6 @@
+model,roc_auc,roc_auc_95ci,pr_auc,rf_better_in_%_of_bootstraps
+"CNS rule (TPSA<90, MW<450, HBD<=3)",0.747,"[0.703, 0.787]",0.717,100.0
+TPSA alone (lower = crosses),0.826,"[0.783, 0.866]",0.843,100.0
+CNS MPO score (4-component),0.735,"[0.683, 0.782]",0.746,100.0
+Logistic regression (6 descriptors),0.81,"[0.765, 0.853]",0.807,100.0
+Random forest (this project),0.882,"[0.847, 0.914]",0.897,0.0
