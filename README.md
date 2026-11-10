@@ -5,6 +5,8 @@ molecules are blocked by the blood-brain barrier (BBB). This project predicts, f
 molecule's structure alone (its SMILES string), whether it will cross the BBB — using a
 **single random forest** model.
 
+> 📄 **[Full step-by-step report (PDF)](report/BBBP_Report.pdf)** — data, model, SHAP, trustworthiness and error analysis in one document, regenerated from `outputs/` by `src/report.py`.
+
 ## Results
 
 Evaluated on a **scaffold split**: test molecules have core structures (Bemis-Murcko
@@ -296,6 +298,7 @@ python src/train.py          # ~5 min on a laptop; writes outputs/
 python src/explain.py        # ~3 min; SHAP plots in outputs/
 python src/evaluate.py       # ~2 min; baselines, CIs, split comparison, threshold, calibration
 python src/analysis.py       # ~1 min; applicability domain, errors, label noise, case studies
+python src/report.py         # build report/BBBP_Report.pdf from everything above
 python src/predict.py "CN1C=NC2=C1C(=O)N(C(=O)N2C)C"   # caffeine
 ```
 
@@ -310,5 +313,7 @@ src/predict.py           predict BBB penetration for new SMILES
 src/explain.py           SHAP analysis: global + per-molecule explanations
 src/evaluate.py          trustworthiness: baselines, bootstrap CIs, splits, threshold, calibration
 src/analysis.py          applicability domain, error analysis, label noise, case studies, t-SNE
+src/report.py            assemble the full step-by-step PDF report from outputs/
 outputs/                 metrics, plots and CSV/JSON reports from all scripts
+report/BBBP_Report.pdf   generated step-by-step report (data to error analysis)
 ```
