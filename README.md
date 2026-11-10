@@ -26,6 +26,8 @@ training-set cross-validation fixes most of that (see [How far can we trust it?]
 
 ![ROC curve](outputs/roc_curve.png)
 
+*How well the model separates "crosses" from "blocked" at every possible cutoff. The more the blue curve bows toward the top-left, the better; the dashed diagonal is random guessing. The area under it (AUC) is 0.882.*
+
 ### What the model learned
 
 The most important features are the ones medicinal chemists already use to judge brain
@@ -38,6 +40,8 @@ penetration — a good sanity check:
 
 ![Feature importance](outputs/feature_importance.png)
 
+*The random forest's own ranking of which features it leaned on most. Longer bars = more used. It shows how much each feature matters, but not in which direction — SHAP (below) adds that.*
+
 ## SHAP analysis: why the model decides what it decides
 
 `src/explain.py` runs exact TreeSHAP on the final random forest (400 sampled molecules)
@@ -46,9 +50,13 @@ or **blocked** (negative SHAP).
 
 ![SHAP beeswarm](outputs/shap_beeswarm.png)
 
+*Each dot is one molecule. Dots to the right pushed that molecule toward "crosses", dots to the left toward "blocked". Colour is the feature's value (red = high, blue = low). For TPSA, red dots sit on the left: high polar surface area pushes toward "blocked".*
+
 Ranked by overall importance (mean absolute SHAP across all molecules):
 
 ![SHAP global importance](outputs/shap_bar.png)
+
+*The beeswarm summarised to one bar per feature: the average size of each feature's push, ignoring direction — a plain "which features matter most" ranking.*
 
 Key findings (red = high feature value):
 
@@ -65,9 +73,13 @@ Key findings (red = high feature value):
 
 ![TPSA dependence](outputs/shap_dependence_TPSA.png)
 
+*X-axis is the actual TPSA value; Y-axis is how much it pushed the prediction. The trend crosses zero at ~80–90 Å² — above that, TPSA pushes toward "blocked". The model found the known "TPSA < 90 for brain drugs" rule on its own.*
+
 Lipophilicity works the other way — higher MolLogP nudges predictions towards "crosses":
 
 ![MolLogP dependence](outputs/shap_dependence_MolLogP.png)
+
+*Same kind of plot for lipophilicity (how oily the molecule is). It slopes upward: higher MolLogP pushes toward "crosses", because oily molecules slip through the barrier's fatty membranes.*
 
 ### Explaining single molecules
 
@@ -76,6 +88,8 @@ Morgan fingerprint bits are labelled with the substructure they encode.
 | Caffeine — P(BBB+) = 0.94 | Penicillin G — P(BBB+) = 0.01 |
 |---|---|
 | ![Caffeine](outputs/shap_waterfall_caffeine.png) | ![Penicillin G](outputs/shap_waterfall_penicillin_g.png) |
+
+*Waterfall plots explain one drug at a time. Starting from the average prediction, each bar adds one feature's push — red bars up (toward "crosses"), blue bars down — until it reaches the final score. Caffeine's bars push up to 0.94 (crosses); penicillin G's push down to 0.01 (blocked), both correct.*
 
 Penicillin G (which indeed does not reach the brain well) is pushed down by its
 carboxylic acid, β-lactam and thioether groups.
@@ -105,6 +119,8 @@ it understates the published score.
 
 ![Baselines](outputs/baselines_roc.png)
 
+*ROC curves for the random forest against the simple rules chemists already use. The forest's curve (highest AUC) sits above all the baselines, so it ranks molecules better than any of them.*
+
 ### 2. The split matters more than the model
 
 The same model with fixed hyperparameters, refit on 5 random and 5 shuffled scaffold splits:
@@ -122,6 +138,8 @@ chemotypes.
 
 ![Split comparison](outputs/split_comparison.png)
 
+*The same model scored under different ways of splitting train/test. The easy random split (left) looks ~0.05 AUC better because near-copies leak into training; the honest scaffold split (right) is our reported number.*
+
 ### 3. Choose the decision threshold, don't assume 0.5
 
 The training data is 82% BBB+, so the forest is biased towards "crosses". At 0.5 it labels
@@ -136,6 +154,8 @@ accuracy) and applied it unchanged to the test set:
 
 ![Confusion matrices](outputs/confusion_matrices.png)
 
+*Counts of correct vs wrong calls at two decision cutoffs. The default 0.5 (left) labels almost everything "crosses"; the tuned 0.85 (right) catches far more of the "blocked" drugs, with a much better balance.*
+
 ### 4. Probabilities are over-confident on new chemotypes
 
 On training CV the probabilities are reasonably calibrated (Brier 0.089). On the scaffold
@@ -145,6 +165,8 @@ because the class balance shifts between train and test. **Read P(BBB+) as a ran
 score, not a literal probability**, especially for unfamiliar scaffolds.
 
 ![Calibration](outputs/calibration.png)
+
+*Checks whether a predicted probability matches reality. A perfectly honest model follows the diagonal. On new chemotypes the curve dips below it, meaning the scores are over-confident — so treat P(BBB+) as a ranking, not a literal probability.*
 
 ## Where the model works and where it fails
 
@@ -170,6 +192,8 @@ low-confidence.
 
 ![Applicability domain](outputs/applicability_domain.png)
 
+*Accuracy vs how similar a test molecule is to the closest training molecule. The more novel the molecule (left), the less accurate the prediction — which is why predictions below ~0.4 similarity should be treated as low-confidence.*
+
 ### Chemical space
 
 A t-SNE map of the Morgan fingerprints. Blocked compounds cluster into a few islands
@@ -179,9 +203,13 @@ map, and errors (red ×) concentrate where the two classes mix.
 
 ![Chemical space](outputs/chemical_space.png)
 
+*A 2-D map where structurally similar molecules sit close together. Blocked compounds (one colour) cluster into a few islands; brain-penetrant ones fill the central region. Errors (red ×) bunch up where the two classes overlap.*
+
 ### The most confident mistakes
 
 ![Error molecules](outputs/error_molecules.png)
+
+*The molecules the model got most confidently wrong, drawn out with their true label and predicted score. Reading the structures shows the errors aren't random — they're drugs whose brain access depends on transporters, which a structure-only model can't see.*
 
 The errors fall into two clear groups (full table in `outputs/error_analysis.csv`):
 
@@ -234,6 +262,8 @@ efflux substrates and L-DOPA, which LAT1 carries into the brain. This is the cle
 limitation of a structure-only model.
 
 ![Case studies](outputs/case_studies.png)
+
+*Twelve well-known drugs that were removed from training before predicting, so this is a genuine out-of-sample test. Green = the model agreed with the known behaviour, red = it missed — and every miss is a transporter-driven drug.*
 
 ### Limitations
 
