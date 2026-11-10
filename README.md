@@ -46,6 +46,10 @@ or **blocked** (negative SHAP).
 
 ![SHAP beeswarm](outputs/shap_beeswarm.png)
 
+Ranked by overall importance (mean absolute SHAP across all molecules):
+
+![SHAP global importance](outputs/shap_bar.png)
+
 Key findings (red = high feature value):
 
 - **TPSA is the #1 driver.** High polar surface area strongly lowers P(BBB+). The
@@ -60,6 +64,10 @@ Key findings (red = high feature value):
   little, but together they separate the classes clearly.
 
 ![TPSA dependence](outputs/shap_dependence_TPSA.png)
+
+Lipophilicity works the other way — higher MolLogP nudges predictions towards "crosses":
+
+![MolLogP dependence](outputs/shap_dependence_MolLogP.png)
 
 ### Explaining single molecules
 
